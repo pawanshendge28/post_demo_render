@@ -1,0 +1,24 @@
+databases:
+  - name: dummy_database
+    databaseName: dummy_database_ezhn
+    user: dummy_database_ezhn_user
+    plan: free
+
+services:
+  - type: web
+    name: pawanshendge28
+    runtime: ruby
+    plan: free
+    buildCommand: "./render-build.sh"
+    startCommand: "bundle exec rails server"
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: dummy_database
+          property: connectionString
+      - key: RAILS_MASTER_KEY
+        sync: false
+      - key: WEB_CONCURRENCY
+        value: 2
+
+ 
