@@ -1,24 +1,8 @@
-databases:
-  - name: dummy_database
-    databaseName: dummy_database_ezhn
-    user: dummy_database_ezhn_user
-    plan: free
+#!/usr/bin/env bash
+# exit on error
+set -o errexit
+# Disable frozen Gemfile.lock
 
-services:
-  - type: web
-    name: pawanshendge28
-    runtime: ruby
-    plan: free
-    buildCommand: "./render-build.sh"
-    startCommand: "bundle exec rails server"
-    envVars:
-      - key: DATABASE_URL
-        fromDatabase:
-          name: dummy_database
-          property: connectionString
-      - key: RAILS_MASTER_KEY
-        sync: false
-      - key: WEB_CONCURRENCY
-        value: 2
-
- 
+bundle install
+bundle exec rails assets:precompile
+bundle exec rails assets:clean
